@@ -11,6 +11,22 @@ class PollView(generics.ListAPIView):
     serializer_class = PollSerializer
 
 
+class GetRoomView(APIView):
+    serializer_class = PollSerializer
+    lookup_url_kwarg = 'code'
+
+    def get(self, request, format=None):
+        code = request.GET.get(self.lookup_url_kwarg)
+        if code != None:
+            poll = Poll.objects.filter(code=code).first()
+            if poll.exists():
+                data = PollSerializer(poll[0]).data
+                data['is_host'] = self.request.session.session_key == poll[0].host
+                return Response(data,status=status.HTTP_200_OK)
+            return Response({'Room not found': 'Invalid Room Code'}, status=status.HTTP_404_NOT_FOUND)
+        return Response({'Bad Request': 'Code paramater not found in request.'},status=status.HTTP_400_BAD_REQUEST)
+
+
 class CreatePollView(APIView):
     serializer_class = CreatePollSerializer
 
