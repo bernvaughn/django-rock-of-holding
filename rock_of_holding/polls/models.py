@@ -12,4 +12,5 @@ def generate_unique_code():
 class Poll(models.Model):
     code = models.CharField(max_length=8, default=generate_unique_code, unique=True, null=False)
     host = models.CharField(max_length=50, unique=True)
-    created_date = models.DateTimeField(default=timezone.now(), null=False)
+    title = models.CharField(max_length=50)
+    created_date = models.DateTimeField(default=timezone.now, null=False)
