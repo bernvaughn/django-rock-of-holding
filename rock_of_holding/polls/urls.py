@@ -7,4 +7,5 @@ urlpatterns = [
     path('getroom',GetRoomView.as_view()),
     path('joinroom',JoinPollView.as_view()),
     path('userinroom',UserInRoom.as_view()),
+    path('leaveroom',LeaveRoom.as_view()),
 ]

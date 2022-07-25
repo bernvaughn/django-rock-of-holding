@@ -6,6 +6,7 @@ from .serializers import *
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
+
 class PollView(generics.ListAPIView):
     queryset = Poll.objects.all()
     serializer_class = PollSerializer
@@ -20,8 +21,10 @@ class GetRoomView(APIView):
         if code != None:
             poll = Poll.objects.filter(code=code).first()
             if poll is not None:
-                data = PollSerializer(poll[0]).data
-                data['is_host'] = self.request.session.session_key == poll[0].host
+                data = PollSerializer(poll).data
+                print(self.request.session.session_key, poll.host) # TODO: remove
+                print(self.request.session.session_key == poll.host)
+                data['is_host'] = self.request.session.session_key == poll.host
                 return Response(data,status=status.HTTP_200_OK)
             return Response({'Room not found': 'Invalid Room Code'}, status=status.HTTP_404_NOT_FOUND)
         return Response({'Bad Request': 'Code paramater not found in request.'},status=status.HTTP_400_BAD_REQUEST)
@@ -43,6 +46,7 @@ class JoinPollView(APIView):
             return Response({'Bad Request': 'Invalid room code'}, status=status.HTTP_400_BAD_REQUEST)
             
         return Response({'Bad Request': 'Invalid post data, did not find a matching room'}, status=status.HTTP_400_BAD_REQUEST)
+
 
 class CreatePollView(APIView):
     serializer_class = CreatePollSerializer
@@ -83,3 +87,17 @@ class UserInRoom(APIView):
         }
 
         return JsonResponse(data, status=status.HTTP_200_OK)
+
+
+class LeaveRoom(APIView):
+    def post(self, request, fromat=None):
+        if 'room_code' in self.request.session:
+            code = self.request.session.pop('room_code')
+
+            host_id = self.request.session.session_key
+            room = Poll.objects.filter(host=host_id).first()
+            if room is not None:
+                room.delete()
+
+        return Response({'Message': 'Success'}, status=status.HTTP_200_OK)
+
