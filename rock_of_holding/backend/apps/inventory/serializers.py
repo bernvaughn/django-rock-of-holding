@@ -11,7 +11,8 @@ class InventorySerializer(serializers.ModelSerializer):
             'party',
             'maximum_weight',
             'hidden',
-            # TODO: add over_weight bool? 
+            'current_weight',
+            'over_weight',
         ]
 
 
@@ -24,6 +25,7 @@ class ItemInstanceSerializer(serializers.ModelSerializer):
             'inventory',
             'quantity',
             'notes',
+            'weight',
         ]
 
 

@@ -10,7 +10,7 @@ class TestInventorySerializer:
         item = mixer.blend('inventory.Inventory')
         ser = InventorySerializer(item)
         print(ser.data)
-        keys_to_check = ['id','hidden']
+        keys_to_check = ['id','hidden','current_weight','over_weight']
         for key in keys_to_check:
             assert key in InventorySerializer.Meta.fields
             assert getattr(item, key) == ser.data.get(key)
@@ -26,7 +26,7 @@ class TestItemInstanceSerializer:
         item = mixer.blend('inventory.ItemInstance')
         ser = ItemInstanceSerializer(item)
         print(ser.data)
-        keys_to_check = ['id','quantity','notes']
+        keys_to_check = ['id','quantity','notes','weight']
         for key in keys_to_check:
             assert key in ItemInstanceSerializer.Meta.fields
             assert getattr(item, key) == ser.data.get(key)
