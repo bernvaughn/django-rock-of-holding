@@ -24,6 +24,7 @@ class Inventory(models.Model):
 
 class ItemInstance(models.Model):
     # defines an item that is in an inventory
+    # like a line item on a bom
     definition = models.ForeignKey('inventory.ItemDefinition', related_name='instances', null=False, on_delete=models.CASCADE)
     inventory = models.ForeignKey('inventory.Inventory', related_name='items', null=False, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(null=False, default=1)
