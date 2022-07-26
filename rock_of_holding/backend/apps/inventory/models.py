@@ -5,7 +5,7 @@ from django.core.validators import MinValueValidator
 class Inventory(models.Model):
     owner = models.ForeignKey('accounts.User', related_name='inventories', on_delete=models.CASCADE)
     party = models.ForeignKey('party.Party', related_name='inventories', on_delete=models.CASCADE)
-    maximum_weight = models.DecimalField(max_digits=12, decimal_places=2, validators=[MinValueValidator(0.0)])
+    maximum_weight = models.DecimalField(max_digits=12, decimal_places=3, validators=[MinValueValidator(0.0)])
     hidden = models.BooleanField(null=False, default=False)
 
     @property
@@ -26,7 +26,7 @@ class ItemInstance(models.Model):
     # defines an item that is in an inventory
     definition = models.ForeignKey('inventory.ItemDefinition', related_name='instances', null=False, on_delete=models.CASCADE)
     inventory = models.ForeignKey('inventory.Inventory', related_name='items', null=False, on_delete=models.CASCADE)
-    quantity = models.IntegerField(null=False, default=1)
+    quantity = models.PositiveIntegerField(null=False, default=1)
     notes = models.TextField(max_length=3000)
 
     @property
@@ -38,7 +38,6 @@ class ItemDefinition(models.Model):
     # defines an item
     name = models.CharField(max_length=128, null=False)
     description = models.TextField(max_length=3000)
-    # TODO: test validators
-    weight = models.DecimalField(max_digits=12, decimal_places=2, validators=[MinValueValidator(0.0)])
-    value = models.DecimalField(max_digits=12, decimal_places=2, validators=[MinValueValidator(0.0)])
+    weight = models.DecimalField(max_digits=12, decimal_places=3, validators=[MinValueValidator(0.0)])
+    value = models.DecimalField(max_digits=12, decimal_places=3, validators=[MinValueValidator(0.0)])
     fungible = models.BooleanField(null=False, default=False)
