@@ -9,6 +9,7 @@ class PartySerializer(serializers.ModelSerializer):
             'id',
             'name',
             'members',
+            'owner',
         ]
 
 
