@@ -5,9 +5,11 @@ class Inventory(models.Model):
     owner = models.ForeignKey('accounts.User', related_name='inventories', on_delete=models.CASCADE)
     party = models.ForeignKey('party.Party', related_name='inventories', on_delete=models.CASCADE)
     maximum_weight = models.IntegerField()
+    hidden = models.BooleanField(null=False, default=False)
 
 
 class ItemInstance(models.Model):
+    # defines an item that is in an inventory
     definition = models.ForeignKey('inventory.ItemDefinition', related_name='instances', null=False, on_delete=models.CASCADE)
     inventory = models.ForeignKey('inventory.Inventory', related_name='items', null=False, on_delete=models.CASCADE)
     quantity = models.IntegerField(null=False, default=1)
@@ -15,6 +17,7 @@ class ItemInstance(models.Model):
 
 
 class ItemDefinition(models.Model):
+    # defines an item
     name = models.CharField(max_length=128, null=False)
     description = models.TextField(max_length=3000)
     weight = models.IntegerField()
