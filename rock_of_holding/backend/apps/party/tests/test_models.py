@@ -8,6 +8,18 @@ class TestParty:
         item = mixer.blend('party.Party')
         assert item is not None
 
+    def test_owner(self):
+        user = mixer.blend('accounts.User')
+        party = mixer.blend('party.Party')
+        mem = mixer.blend('party.Membership',user=user,party=party,role='OW')
+
+        assert party.owner == user
+
+    def test_owner_none(self):
+        party = mixer.blend('party.Party')
+
+        assert party.owner is None
+
 
 @pytest.mark.django_db
 class TestMembership:
