@@ -3,6 +3,7 @@ from django.core.validators import MinValueValidator
 
 
 class Inventory(models.Model):
+    name = models.CharField(max_length=128, null=False)
     owner = models.ForeignKey('accounts.User', related_name='inventories', on_delete=models.CASCADE)
     party = models.ForeignKey('party.Party', related_name='inventories', on_delete=models.CASCADE)
     maximum_weight = models.DecimalField(max_digits=12, decimal_places=3, validators=[MinValueValidator(0.0)])

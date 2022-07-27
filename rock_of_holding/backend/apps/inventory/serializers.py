@@ -7,6 +7,7 @@ class InventorySerializer(serializers.ModelSerializer):
         model = Inventory
         fields = [
             'id',
+            'name',
             'owner',
             'party',
             'maximum_weight',
