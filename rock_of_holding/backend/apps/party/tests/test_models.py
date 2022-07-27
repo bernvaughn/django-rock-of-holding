@@ -15,6 +15,14 @@ class TestParty:
 
         assert party.owner == user
 
+    def test_owner_id(self):
+        user = mixer.blend('accounts.User')
+        party = mixer.blend('party.Party')
+        mem = mixer.blend('party.Membership',user=user,party=party,role='OW')
+
+        assert party.owner == user
+        assert party.owner_id == user.id
+
     def test_owner_none(self):
         party = mixer.blend('party.Party')
 

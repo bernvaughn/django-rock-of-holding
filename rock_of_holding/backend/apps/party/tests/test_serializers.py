@@ -9,7 +9,7 @@ class TestPartySerializer:
         item = mixer.blend('party.Party')
         ser = PartySerializer(item)
         print(ser.data)
-        keys_to_check = ['id','name', 'owner']
+        keys_to_check = ['id','name', 'owner_id']
         for key in keys_to_check:
             assert key in PartySerializer.Meta.fields
             assert getattr(item, key) == ser.data.get(key)
