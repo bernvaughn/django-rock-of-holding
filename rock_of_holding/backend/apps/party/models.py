@@ -14,6 +14,14 @@ class Party(models.Model):
         own = mem.user
         return own
 
+    # TODO: test for this
+    @property
+    def owner_id(self):
+        if self.owner is not None:
+            return self.owner.id
+        return None
+
+
 class Membership(models.Model):
 
     class Roles(models.TextChoices):
